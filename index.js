@@ -64,7 +64,11 @@ async function run() {
   }
 });
 
-   
+   // featured facilities
+    app.get('/featured-facilities', async (req, res) => {
+      const result = await facilitiesCollection.find({ isFeatured: true }).toArray();
+      res.json(result);
+    });
     await client.db("admin").command({ ping: 1 });
     console.log("Connected to MongoDB successfully!");
   } catch (err) {
