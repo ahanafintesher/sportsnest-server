@@ -77,6 +77,14 @@ async function run() {
       res.json(result);
     });
 
+        // add facility
+    app.post('/facilities', async (req, res) => {
+      const facilitiesData = req.body;
+      const result = await facilitiesCollection.insertOne(facilitiesData);
+      res.json(result);
+    });
+
+
     await client.db("admin").command({ ping: 1 });
     console.log("Connected to MongoDB successfully!");
   } catch (err) {
