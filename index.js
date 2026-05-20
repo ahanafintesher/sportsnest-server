@@ -91,6 +91,18 @@ async function run() {
       res.json(result);
     });
 
+        // update facility
+    app.patch('/facilities/:id', async (req, res) => {
+      const { id } = req.params;
+      const updatedData = req.body;
+      const result = await facilitiesCollection.updateOne(
+        { _id: new ObjectId(id) },
+        { $set: updatedData }
+      );
+      res.json(result);
+    });
+
+
 
     await client.db("admin").command({ ping: 1 });
     console.log("Connected to MongoDB successfully!");
