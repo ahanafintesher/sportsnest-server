@@ -69,6 +69,14 @@ async function run() {
       const result = await facilitiesCollection.find({ isFeatured: true }).toArray();
       res.json(result);
     });
+
+        // get single facility
+    app.get('/facilities/:id', async (req, res) => {
+      const { id } = req.params;
+      const result = await facilitiesCollection.findOne({ _id: new ObjectId(id) });
+      res.json(result);
+    });
+
     await client.db("admin").command({ ping: 1 });
     console.log("Connected to MongoDB successfully!");
   } catch (err) {
