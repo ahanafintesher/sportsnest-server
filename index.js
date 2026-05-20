@@ -50,9 +50,14 @@ async function run() {
       };
     }
 
-    if (type && type!=='All') {
-      query.facility_type = type;
-    }
+    if (type && type !== "All") {
+
+  const typesArray = type.split(",");
+
+  query.facility_type = {
+    $in: typesArray,
+  };
+}
 
     const result = await facilitiesCollection.find(query).toArray();
 
@@ -103,9 +108,16 @@ async function run() {
       res.json(result);
     });
 
+    // post bookings
     app.post('/bookings', async (req, res) => {
       const bookingsData = req.body;
       const result = await bookingsCollection.insertOne(bookingsData);
+      res.json(result);
+    });
+
+    app.delete('/bookings/:id', async (req, res) => {
+      const { id } = req.params;
+      const result = await bookingsCollection.deleteOne({ _id: new ObjectId(id) });
       res.json(result);
     });
 
