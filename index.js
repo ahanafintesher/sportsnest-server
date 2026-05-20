@@ -31,6 +31,7 @@ async function run() {
 
     const db = client.db('sportsnest');
     const facilitiesCollection = db.collection('facilities');
+    const bookingsCollection = db.collection('bookings')
 
     // all facilities
    app.get("/facilities", async (req, res) => {
@@ -99,6 +100,12 @@ async function run() {
         { _id: new ObjectId(id) },
         { $set: updatedData }
       );
+      res.json(result);
+    });
+
+    app.post('/bookings', async (req, res) => {
+      const bookingsData = req.body;
+      const result = await bookingsCollection.insertOne(bookingsData);
       res.json(result);
     });
 
