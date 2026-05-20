@@ -84,6 +84,13 @@ async function run() {
       res.json(result);
     });
 
+      // delete facility
+    app.delete('/facilities/:id', async (req, res) => {
+      const { id } = req.params;
+      const result = await facilitiesCollection.deleteOne({ _id: new ObjectId(id) });
+      res.json(result);
+    });
+
 
     await client.db("admin").command({ ping: 1 });
     console.log("Connected to MongoDB successfully!");
