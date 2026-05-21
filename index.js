@@ -27,7 +27,7 @@ const client = new MongoClient(uri, {
 });
 
 const JWKS = createRemoteJWKSet(
-  new URL("http://localhost:3000/api/auth/jwks")
+  new URL("https://sports-nest-ten.vercel.app/api/auth/jwks")
 )
 
 const verifyToken = async(req, res, next) =>{
@@ -52,7 +52,7 @@ const verifyToken = async(req, res, next) =>{
 
 async function run() {
   try {
-    await client.connect();
+    // await client.connect();
 
     const db = client.db('sportsnest');
     const facilitiesCollection = db.collection('facilities');
@@ -150,7 +150,7 @@ app.get('/bookings', verifyToken, async(req,res)=>{
 })
 
 // delete booking
-    app.delete('/bookings/:id', async (req, res) => {
+    app.delete('/bookings/:id', verifyToken, async (req, res) => {
       const { id } = req.params;
       const result = await bookingsCollection.deleteOne({ _id: new ObjectId(id) });
       res.json(result);
@@ -158,7 +158,7 @@ app.get('/bookings', verifyToken, async(req,res)=>{
 
 
 
-    await client.db("admin").command({ ping: 1 });
+    // await client.db("admin").command({ ping: 1 });
     console.log("Connected to MongoDB successfully!");
   } catch (err) {
     console.error(err);
